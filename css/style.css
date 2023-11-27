@@ -1,0 +1,166 @@
+/* GLOBAL */
+* {
+    margin:0;
+    box-sizing: border-box;
+    font-family: Manrope, Arial;
+}
+
+header {
+    background-image: url(/assets/images/header-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 900px;
+}
+
+.hidden {
+    display:none !important;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* HEADER */
+.header_container {
+    height:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    position: relative;
+}
+
+.logo_container {
+    width: 100%;
+    padding: 50px 0 0 50px;
+    top:0;
+    left:0;
+    position:absolute;
+}
+
+.header_title {
+   color: #FFD15B;
+   font-size: 44px;
+   width: 700px;
+   text-align: center;
+   font-family: Anton, sans-serif;
+   font-weight: normal;
+}
+
+.search_nav {
+    width: 960px;
+    background-color: white;
+    display:flex;
+    border-radius: 10px;
+}
+
+.research, .button_container {
+    height: 72px;
+    border:0;
+    width: 100%;
+}
+
+.research {
+    border-radius: 10px;
+    padding: 0 15px 0 30px;
+    outline: none;
+    font-size: 16px;
+}
+
+.button_container {
+    width: 80px;
+    padding: 10px;
+}
+
+.button_container button {
+    height: 100%;
+    width:100%;
+    border-radius: 5px;
+    border:0;
+    background-color: #1B1B1B;
+    color:white;
+    transition: all 0.3s;
+}
+
+.button_container button:hover {
+    color:#1B1B1B;
+    background-color: #FFD15B;
+}
+
+.button_container i {
+    font-size: 2em;
+}
+
+/* MAIN */
+main {
+    background-color:#EDEDED;
+    padding: 30px 100px 0 100px;
+}
+
+/* FILTER */
+.filter_section {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filters_container {
+    max-height: 56px;
+    display:flex;
+    gap: 60px;
+}
+
+.filter {
+    display:flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px; 
+    width: 200px;
+}
+
+.btn_filter {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    padding: 17px 16px;
+    border:none;
+    background-color: transparent; 
+}
+
+.filter_search_container {
+    display:flex;
+    border: 1px solid #C6C6C6;
+    margin: 10px 16px;
+}
+
+.research_filter, .submit_filter {
+    border:none;
+    outline:none;
+    background-color: transparent;
+} 
+
+.submit_filter {
+    color: #C6C6C6;
+    padding-right: 10px;
+}
+
+.research_filter {
+    width: 100%;
+    padding: 10px;
+}
+
+.filter_title {
+    font-size: 21px;
+    font-family: Anton, sans-serif;
+    font-weight: normal;
+}
+
+/* RECIPES */
+.recipes_section {
+    padding: 100px;
+}
