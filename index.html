@@ -38,36 +38,53 @@
                     <div class="filter_expanded hidden">
                         <div class="filter_search_container">
                             <input type="search" class="research_filter">
-                            <button type="submit" class="submit_filter">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
+                            <button class="fa-solid fa-magnifying-glass submit_filter"></button>
                         </div>
-                        <button value="epinard" class="btn_filter">
+                        <!-- <button value="epinard" class="btn_filter btn_active">
                             Épinard
-                        </button>
+                            <em class="fa-solid fa-circle-xmark" role="button"></em>
+                        </button> -->
                     </div>
                 </div>
                 <div class="filter">
-                    <button value="device" class="btn_filter">
+                    <button value="appliance" class="btn_filter">
                         Appareils
                         <i class="fa-solid fa-chevron-down down"></i>
                     </button>
+                    <div class="filter_expanded hidden">
+                        <div class="filter_search_container">
+                            <input type="search" class="research_filter">
+                            <button class="fa-solid fa-magnifying-glass submit_filter"></button>
+                        </div>
+                        <!-- <button value="epinard" class="btn_filter">
+                            Épinard
+                        </button> -->
+                    </div>
                 </div>
                 <div class="filter">
-                    <button value="utensil" class="btn_filter">
+                    <button value="ustensils" class="btn_filter">
                         Ustensiles
                         <i class="fa-solid fa-chevron-down down"></i>
                     </button>
+                    <div class="filter_expanded hidden">
+                        <div class="filter_search_container">
+                            <input type="search" class="research_filter">
+                            <button class="fa-solid fa-magnifying-glass submit_filter"></button>
+                        </div>
+                        <!-- <button value="epinard" class="btn_filter">
+                            Épinard
+                        </button> -->
+                    </div>
                 </div>
             </div>
             <h2 class="total_recipes"></h2>
         </section>
 
-        <section class="filters_active_section">
-            <span value="ingredient" class="filter_active">
+        <section class="filters_active_section hidden">
+            <!-- <span value="ingredient" class="filter_active">
                 Ingrédients
                 <button class="fa-solid fa-xmark remove_filter"></button>
-            </span>
+            </span> -->
         </section>
 
         <section class="recipes_section">

@@ -161,10 +161,16 @@ main {
     align-items: center;
     padding: 10px 16px;
     font-size: 16px;
+    text-align: start;
 }
 
 .btn_filter:hover {
     background: #FFD15B;
+}
+
+.btn_active {
+    background: #FFD15B;
+    font-weight: bold;
 }
 
 .fa-chevron-down {
