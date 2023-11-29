@@ -33,51 +33,84 @@
                 <div class="filter">
                     <button value="ingredient" class="btn_filter">
                         Ingrédients
-                        <i class="fa-solid fa-chevron-down"></i>
+                        <i class="fa-solid fa-chevron-down down"></i>
                     </button>
-                    <!-- <div class="filter_search_container">
-                        <input type="search" class="research_filter">
-                        <button type="submit" class="submit_filter">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                    <div class="filter_expanded hidden">
+                        <div class="filter_search_container">
+                            <input type="search" class="research_filter">
+                            <button type="submit" class="submit_filter">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                        <button value="epinard" class="btn_filter">
+                            Épinard
                         </button>
                     </div>
-                    <button value="Blabla" class="btn_filter">
-                        Blabla
-                    </button> -->
                 </div>
                 <div class="filter">
                     <button value="device" class="btn_filter">
                         Appareils
-                        <i class="fa-solid fa-chevron-down"></i>
+                        <i class="fa-solid fa-chevron-down down"></i>
                     </button>
                 </div>
                 <div class="filter">
                     <button value="utensil" class="btn_filter">
                         Ustensiles
-                        <i class="fa-solid fa-chevron-down"></i>
+                        <i class="fa-solid fa-chevron-down down"></i>
                     </button>
                 </div>
-
             </div>
-            <h2 class="filter_title">1500 recettes</h2>
+            <h2 class="total_recipes"></h2>
         </section>
+
+        <section class="filters_active_section">
+            <span value="ingredient" class="filter_active">
+                Ingrédients
+                <button class="fa-solid fa-xmark remove_filter"></button>
+            </span>
+        </section>
+
         <section class="recipes_section">
-            <article class="recipe_card">
+            <!-- <article class="recipe_card">
                 <div class="img_container">
-                    <img src="/assets/recipes/Recette01.jpg" alt="Recette 1">
+                    <img src="/assets/recipes/Recette01.jpg" alt="Recette 1" class="recipe_img">
                     <span class="label_time">10 min</span>
                 </div>
-                <h3 class="recipe_title">
-                    Limonade de Coco
-                </h3>
-                <span class="title_description">RECETTE</span>
-                <p class="recipe_description">Mettre les glaçons à votre goût dans le blender, Ajouter le lait la crème
-                    de coco, le jus de 2 citrons et le sucre ensemble. Mixer jusqu'à obtenir la consistance désirée.</p>
-                <span class="title_description">INGRÉDIENTS</span>
-
-            </article>
+                <div class="recipe_description_container">
+                    <h3 class="recipe_title">
+                        Limonade de Coco
+                    </h3>
+                    <div class="recipe_wrapper">
+                        <p class="title_description">RECETTE</p>
+                        <p class="recipe_description">Mettre les glaçons à votre goût dans le blender, Ajouter le lait
+                            la
+                            crème
+                            de coco, le jus de 2 citrons et le sucre ensemble. Mixer jusqu'à obtenir la consistance
+                            désirée.
+                        </p>
+                    </div>
+                    <div class="recipe_wrapper">
+                        <p class="title_description">INGRÉDIENTS</p>
+                        <div class="ingredient_wrapper">
+                            <div class="ingredient_container">
+                                <span class="ingredient">Lait de coco</span>
+                                <span class="unit">400ml</span>
+                            </div>
+                            <div class="ingredient_container">
+                                <span class="ingredient">Jus de citron</span>
+                                <span class="unit">2</span>
+                            </div>
+                            <div class="ingredient_container">
+                                <span class="ingredient">Crème de coco</span>
+                                <span class="unit">4 cuillères</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article> -->
         </section>
     </main>
 </body>
+<script type="module" src="./scripts/index.js"></script>
 
 </html>

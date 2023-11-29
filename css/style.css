@@ -18,8 +18,14 @@ header {
     display:none !important;
 }
 
+button, input {
+    outline: none;
+    border:none;
+}
+
 button {
     cursor: pointer;
+    background: transparent;
 }
 
 /* HEADER */
@@ -97,20 +103,24 @@ button {
 /* MAIN */
 main {
     background-color:#EDEDED;
-    padding: 30px 100px 0 100px;
+    padding: 30px 200px 0 200px;
 }
 
 /* FILTER */
 .filter_section {
     display:flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
+    height: 56px;
+    position:relative;
 }
 
 .filters_container {
-    max-height: 56px;
     display:flex;
     gap: 60px;
+    position:absolute;
+    top:0;
+    left:0;
 }
 
 .filter {
@@ -119,17 +129,54 @@ main {
     background-color: white;
     border-radius: 10px; 
     width: 200px;
+    overflow: hidden;
+    max-height: 56px;
+    z-index: 1;
+    overflow-y: auto;
+    -ms-overflow-style: none; /* Masque la barre de défilement pour Internet Explorer */
+    scrollbar-width: none; /* Masque la barre de défilement pour Firefox */
+
+    /* Masque la barre de défilement pour les navigateurs WebKit (Chrome, Safari, etc.) */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.show_filter {
+    max-height: 315px;
+}
+
+.btn_filter:first-child {
+    padding: 17px 16px;
 }
 
 .btn_filter {
+    gap: 10px;
+    width:100%; 
+}
+
+.btn_filter, .filter_active {
     display:flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    padding: 10px 16px;
     font-size: 16px;
-    padding: 17px 16px;
-    border:none;
-    background-color: transparent; 
+}
+
+.btn_filter:hover {
+    background: #FFD15B;
+}
+
+.fa-chevron-down {
+    transition: all 0.3s;
+}
+
+.down {
+    transform: rotate(0);
+}
+
+.up {
+    transform: rotate(180deg);
 }
 
 .filter_search_container {
@@ -137,12 +184,6 @@ main {
     border: 1px solid #C6C6C6;
     margin: 10px 16px;
 }
-
-.research_filter, .submit_filter {
-    border:none;
-    outline:none;
-    background-color: transparent;
-} 
 
 .submit_filter {
     color: #C6C6C6;
@@ -154,13 +195,117 @@ main {
     padding: 10px;
 }
 
-.filter_title {
+.total_recipes {
     font-size: 21px;
     font-family: Anton, sans-serif;
     font-weight: normal;
 }
 
+/* FILTERS ACTIVES */
+.filters_active_section {
+    margin-top: 25px;
+    display:flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.filter_active {
+    width: 200px;
+    background-color:#FFD15B;
+    height: 56px;
+    border-radius: 10px;
+}
+
+.remove_filter {
+    font-size: 18px;
+}
+
 /* RECIPES */
 .recipes_section {
-    padding: 100px;
+    padding: 50px 0;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 180px;
+    row-gap: 100px;
+
+    /* display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 100px; */
+}
+
+.recipe_card {
+    background-color:white;
+    /* height: 731px; */
+    width: 380px;
+    border-radius: 21px;
+    overflow: hidden;
+}
+
+.img_container {
+   position: relative; 
+}
+
+.recipe_img {
+    height: 253px;
+    width:100%;
+    object-fit: cover;
+}
+
+.label_time {
+    position:absolute;
+    top:20px;
+    right:20px;
+    padding:5px 15px;
+    border-radius: 14px;
+    background-color:#FFD15B
+}
+
+.label_time, .title_description {
+    font-size: 12px;
+}
+
+.recipe_description_container {
+    padding: 30px 25px;
+}
+
+.recipe_title {
+    font-family: Anton, sans-serif;
+    font-weight:normal;
+    font-size: 18px;
+}
+
+.recipe_wrapper {
+    margin-top: 30px;
+}
+
+.title_description {
+    color: #7A7A7A;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: 1.08px;
+}
+
+.recipe_description, .ingredient_container {
+    font-size: 14px;
+}
+
+.ingredient_wrapper {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px; 
+}
+
+.ingredient_container {
+    display:flex;
+    flex-direction: column;
+}
+
+.ingredient {
+    font-weight: 500;
+}
+
+.unit {
+    color: #7A7A7A;
 }
