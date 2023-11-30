@@ -150,18 +150,20 @@ main {
     padding: 17px 16px;
 }
 
-.btn_filter {
+/* .btn_filter {
     gap: 10px;
-    width:100%; 
-}
+    width:100%;  
+} */
 
-.btn_filter, .filter_active {
+.btn_filter {
     display:flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 16px;
     font-size: 16px;
     text-align: start;
+    gap: 10px;
+    width:100%;
 }
 
 .btn_filter:hover {
