@@ -233,19 +233,11 @@ main {
     padding: 50px 0;
     display:grid;
     grid-template-columns: repeat(3, 1fr);
-    column-gap: 180px;
-    row-gap: 100px;
-
-    /* display:flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 100px; */
+    gap: 5em;
 }
 
 .recipe_card {
     background-color:white;
-    /* height: 731px; */
-    width: 380px;
     border-radius: 21px;
     overflow: hidden;
 }

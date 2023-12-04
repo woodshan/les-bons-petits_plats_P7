@@ -9,7 +9,7 @@ export function displayRecipes(recipes) {
     const recipesSection = document.querySelector(".recipes_section");
 
     // Create dom elements & Set attributes (class, src...)
-    const recipeCard = createElement("article", {"class": "recipe_card"});
+    const recipeCard = createElement("article", {"class": "recipe_card", "data-id": recipe.id});
     const imgContainer = createElement("div", {"class": "img_container"});
     const img = createElement("img", {"class": "recipe_img", "src": `../assets/recipes/${recipe.image}`, "alt": recipe.name});
     const labelTime = createElement("span", {"class": "label_time"});

@@ -1,25 +1,27 @@
 import { createElement } from "../utils/createElement.js";
+import { sort } from "../utils/sort.js";
 
-const activeFilters = document.querySelector(".filters_active_section");
-// Arr of filters values
-let filteredArr = [];
+// Select filters
+const filters = document.querySelectorAll(".filter");
+
+// Array without duplicate elements
+let recipeArr = {"ingredients": [], "appliances": [],"ustensils": []};
 
 export function filtersTemplate(recipes) {
-  const filters = document.querySelectorAll(".filter");
-
   filters.forEach((filter) => {
+    displayFiltersCategories(filter, recipes);
+
     filter.addEventListener("click", (e) => {
       // Select button
       let button =
         e.target.value == undefined ? e.target.parentElement : e.target;
 
       if (
-        button.value == "ingredient" ||
-        button.value == "appliance" ||
+        button.value == "ingredients" ||
+        button.value == "appliances" ||
         button.value == "ustensils"
       ) {
         showFilter(filter);
-        displayFilter(recipes, button);
       } else if (button.classList.contains("btn_filter")) {
         selectFilter(button);
       }
@@ -44,43 +46,67 @@ function showFilter(filter) {
 }
 
 /**
- * Display filter choices
- * @param {Object} recipes
- * @param {HTMLElement} button
+ * add filters values to array & Display filters btn
+ * @param {HTMLElement} filter
+ * @param {Object} recipes recipes data
  */
-function displayFilter(recipes, button) {
-  // Array without duplicate elements
-  let recipeArr = [];
+function displayFiltersCategories(filter, recipes) {
+  // Select filter
+  let filterValue = filter.children[0].value;
+  let openFilterContainer = filter.children[1];
 
-  switch (button.value) {
-    case "ingredient":
+  switch (filterValue) {
+    case "ingredients":
       recipes.forEach((recipe) => {
         recipe.ingredients.forEach((ingredient) => {
           ingredient = ingredient.ingredient;
-          recipeArr.push(ingredient.toLowerCase());
+          recipeArr.ingredients.push(ingredient.toLowerCase());
         });
       });
+      
+      // Create array without duplicate elements
+      recipeArr.ingredients = [...new Set(recipeArr.ingredients)];
+
+      // Display dom element for each filters
+      displayFilters(recipeArr.ingredients, openFilterContainer);
       break;
-    case "appliance":
+    case "appliances":
       recipes.forEach((recipe) => {
-        recipeArr.push(recipe.appliance.toLowerCase());
+        recipeArr.appliances.push(recipe.appliance.toLowerCase());
       });
+
+      // Create array without duplicate elements
+      recipeArr.appliances = [...new Set(recipeArr.appliances)];
+
+      // Display dom element for each filters
+      displayFilters(recipeArr.appliances, openFilterContainer);
       break;
     case "ustensils":
       recipes.forEach((recipe) => {
         recipe.ustensils.forEach((ustensil) => {
-          recipeArr.push(ustensil.toLowerCase());
+          recipeArr.ustensils.push(ustensil.toLowerCase());
         });
       });
+
+      // Create array without duplicate elements
+      recipeArr.ustensils = [...new Set(recipeArr.ustensils)];
+
+      // Display dom element for each filters
+      displayFilters(recipeArr.ustensils, openFilterContainer);
       break;
     default:
       console.log("Cette valeur n'existe pas.");
   }
+}
 
-  // Create array without duplicate elements
-  recipeArr = [...new Set(recipeArr)];
-
-  recipeArr.forEach((element) => {
+/**
+ * Display filters btn in each filter
+ * @param {Object} recipeArrCategory 
+ * @param {HTMLElement} container
+ */
+export function displayFilters(recipeArrCategory, container) {
+  // Display dom element for each filters
+  recipeArrCategory.forEach((element) => {
     const btnElement = createElement("button", {
       class: "btn_filter",
       value: element,
@@ -89,10 +115,9 @@ function displayFilter(recipes, button) {
     // Capitalize first letter
     btnElement.innerText = element.replace(/^\w/, (c) => c.toUpperCase());
 
-    button.parentElement.querySelector(".filter_expanded").append(btnElement);
+    container.append(btnElement);
   });
 }
-
 
 /**
  * Select/Unselect filter choices
@@ -102,10 +127,10 @@ function selectFilter(button) {
   const isActive = button.classList.contains("btn_active");
 
   if (!isActive) {
-    // Activate filter
+    // Active filter
     activateFilter(button);
   } else {
-    // Desactivate filter
+    // Desactive filter
     desactivateFilter(button);
   }
 
@@ -113,9 +138,20 @@ function selectFilter(button) {
   displayActiveFilters();
 }
 
+
+const activeFiltersSection = document.querySelector(".filters_active_section");
+// Array of filters active
+let activeFiltersArray = [];
+/**
+ * Handle active filters
+ * @param {HTMLElement} button
+ */
 function activateFilter(button) {
+  // Active selected btn
   button.classList.add("btn_active");
-  activeFilters.classList.remove("hidden");
+
+  // Display filter active section
+  activeFiltersSection.classList.remove("hidden");
 
   const filterValue = button.innerText.toLowerCase();
 
@@ -123,51 +159,70 @@ function activateFilter(button) {
     class: "fa-solid fa-circle-xmark",
     role: "button",
   });
+  button.append(xMark);
 
+  // Display filter active
   const activeFilter = createElement("span", {
     class: "btn_filter filter_active",
     value: filterValue,
   });
   activeFilter.innerText = button.innerText;
-
   const removebtn = createElement("button", {
     class: "fa-solid fa-xmark remove_filter",
   });
   activeFilter.append(removebtn);
 
-  button.append(xMark);
-  filteredArr.push(activeFilter);
+  // Add active filter to array
+  activeFiltersArray.push(activeFilter);
 
+  // Remove filter active on click filter active btn
   removebtn.addEventListener("click", () => {
     desactivateFilter(button, removebtn.parentElement);
   });
 }
 
+/**
+ * Handle active filters
+ * @param {HTMLElement} button
+ * @param {HTMLElement} filterToRemove
+ */
 function desactivateFilter(button, filterToRemove) {
   const filterValue = button.value.toLowerCase();
-  filteredArr = filteredArr.filter((filt) => filt.getAttribute("value").toLowerCase() !== filterValue);
-  if(filterToRemove) {
+
+  // Remove clicked filter active from array
+  activeFiltersArray = activeFiltersArray.filter(
+    (filt) => filt.getAttribute("value").toLowerCase() !== filterValue
+  );
+
+  // Remove filter active
+  if (filterToRemove) {
     filterToRemove.remove();
   }
-  
+
+  // Desactivate active button in scrolling menu
   button.classList.remove("btn_active");
   button.querySelector("em").remove();
 
-  if(filteredArr.length === 0) {
-    activeFilters.classList.add("hidden");
+  // Remove filters active section if no filter is active
+  if (activeFiltersArray.length === 0) {
+    activeFiltersSection.classList.add("hidden");
   }
 }
 
 function displayActiveFilters() {
   // Clear filters
-  activeFilters.innerHTML = ""; 
+  activeFiltersSection.innerHTML = "";
 
   // Display active filters
-  filteredArr.forEach((filt) => {
-    activeFilters.append(filt);
+  activeFiltersArray.forEach((filt) => {
+    activeFiltersSection.append(filt);
   });
 
-  if(filteredArr.length === 0) {
-    activeFilters.classList.add("hidden");
+  // Remove filters active section if no filter is active
+  if (activeFiltersArray.length === 0) {
+    activeFiltersSection.classList.add("hidden");
   }
 }
+
+
+sort(filters, recipeArr, activeFiltersArray);
