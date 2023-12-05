@@ -1,70 +1,31 @@
-let searchedFilter = [];
+import { recipes } from "../../data/recipes.js";
+import { displayRecipes } from "../templates/recipeTemplate.js";
 
-export function sort(filters, recipeArr, activeFiltersArray) {
-  filters.forEach((filter) => {
-    switch (filter.children[0].value) {
-      case "ingredients":
-        let searchIngredients = filter.querySelector(".research_filter");
+export function sort(activeFiltersArray) {
+  const matchingIngredients = [];
 
-        searchIngredients.addEventListener("input", (e) => {
-          searchEachFilter(filter, e.target.value, recipeArr.ingredients);
-        });
-
-        break;
-      case "appliances":
-        let searchAppliances = filter.querySelector(".research_filter");
-
-        searchAppliances.addEventListener("input", (e) => {
-          searchEachFilter(filter, e.target.value, recipeArr.appliances);
-        });
-
-        break;
-      case "ustensils":
-        let searchUstensils = filter.querySelector(".research_filter");
-
-        searchUstensils.addEventListener("input", (e) => {
-          searchEachFilter(filter, e.target.value, recipeArr.ustensils);
-        });
-
-        break;
-      default:
-        console.log("Cette valeur n'existe pas");
-    }
-  });
-}
-
-/**
- * Display searched filter
- * @param {HTMLElement} filter
- * @param {String} value
- * @param {Object} recipeArr
- */
-function searchEachFilter(filter, value, recipeArr) {
-  let filtersContainer = filter.children[1];
-
-  if (value !== "") {
-    // Get array of searched value using typed value
-    searchedFilter = recipeArr.filter(
-      (ingr) => ingr.startsWith(value) || ingr.includes(value)
-    );
-
-    filtersContainer.querySelectorAll(".btn_filter").forEach((btn) => {
-      // Hide all filters buttons
-      btn.classList.add("hidden");
-
-      // Show searched filter
-      searchedFilter.forEach((filtValue) => {
-        if (filtValue == btn.value) {
-          btn.classList.remove("hidden");
+  // Parcours des recettes
+  recipes.forEach((recipe) => {
+    recipe.ingredients.forEach((ingredient) => {
+      activeFiltersArray.forEach((activeFilter) => {
+        if (ingredient.ingredient.toLowerCase() === activeFilter.getAttribute("value")) {
+          matchingIngredients.push(recipe);
         }
       });
     });
-  } else {
-    // Hide all filters buttons
-    filtersContainer
-      .querySelectorAll(".btn_filter")
-      .forEach((btn) => btn.classList.remove("hidden"));
+  });
+  
+  displayRecipeCard(matchingIngredients);
+}
 
-    console.log("Aucun filtre recherché");
+function displayRecipeCard(matchingIngredients) {
+  // Clear all recipe cards
+  document.querySelector(".recipes_section").innerHTML = "";
+
+  // Display searched recipe cards 
+  if(matchingIngredients.length > 0) {
+    displayRecipes(matchingIngredients);
+  } else {
+    displayRecipes(recipes)
   }
 }

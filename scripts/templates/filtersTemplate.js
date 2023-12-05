@@ -1,11 +1,16 @@
 import { createElement } from "../utils/createElement.js";
-import { sort } from "../utils/sort.js";
+import { selectFilter } from "./activeFilters.js";
+// import { sort } from "../utils/sort.js";
+import { searchFilter } from "../utils/searchFilter.js";
 
 // Select filters
 const filters = document.querySelectorAll(".filter");
 
+// Array of filters active
+let activeFiltersArray = [];
+
 // Array without duplicate elements
-let recipeArr = {"ingredients": [], "appliances": [],"ustensils": []};
+let recipeArr = { ingredients: [], appliances: [], ustensils: [] };
 
 export function filtersTemplate(recipes) {
   filters.forEach((filter) => {
@@ -23,8 +28,12 @@ export function filtersTemplate(recipes) {
       ) {
         showFilter(filter);
       } else if (button.classList.contains("btn_filter")) {
-        selectFilter(button);
+        activeFiltersArray = selectFilter(button, activeFiltersArray);
       }
+    });
+
+    filter.querySelector(".research_filter").addEventListener("input", (e) => {
+      searchFilter(filter, e, recipeArr);
     });
   });
 }
@@ -63,7 +72,7 @@ function displayFiltersCategories(filter, recipes) {
           recipeArr.ingredients.push(ingredient.toLowerCase());
         });
       });
-      
+
       // Create array without duplicate elements
       recipeArr.ingredients = [...new Set(recipeArr.ingredients)];
 
@@ -101,7 +110,7 @@ function displayFiltersCategories(filter, recipes) {
 
 /**
  * Display filters btn in each filter
- * @param {Object} recipeArrCategory 
+ * @param {Object} recipeArrCategory
  * @param {HTMLElement} container
  */
 export function displayFilters(recipeArrCategory, container) {
@@ -118,111 +127,3 @@ export function displayFilters(recipeArrCategory, container) {
     container.append(btnElement);
   });
 }
-
-/**
- * Select/Unselect filter choices
- * @param {HTMLElement} button
- */
-function selectFilter(button) {
-  const isActive = button.classList.contains("btn_active");
-
-  if (!isActive) {
-    // Active filter
-    activateFilter(button);
-  } else {
-    // Desactive filter
-    desactivateFilter(button);
-  }
-
-  // Display actives filters
-  displayActiveFilters();
-}
-
-
-const activeFiltersSection = document.querySelector(".filters_active_section");
-// Array of filters active
-let activeFiltersArray = [];
-/**
- * Handle active filters
- * @param {HTMLElement} button
- */
-function activateFilter(button) {
-  // Active selected btn
-  button.classList.add("btn_active");
-
-  // Display filter active section
-  activeFiltersSection.classList.remove("hidden");
-
-  const filterValue = button.innerText.toLowerCase();
-
-  const xMark = createElement("em", {
-    class: "fa-solid fa-circle-xmark",
-    role: "button",
-  });
-  button.append(xMark);
-
-  // Display filter active
-  const activeFilter = createElement("span", {
-    class: "btn_filter filter_active",
-    value: filterValue,
-  });
-  activeFilter.innerText = button.innerText;
-  const removebtn = createElement("button", {
-    class: "fa-solid fa-xmark remove_filter",
-  });
-  activeFilter.append(removebtn);
-
-  // Add active filter to array
-  activeFiltersArray.push(activeFilter);
-
-  // Remove filter active on click filter active btn
-  removebtn.addEventListener("click", () => {
-    desactivateFilter(button, removebtn.parentElement);
-  });
-}
-
-/**
- * Handle active filters
- * @param {HTMLElement} button
- * @param {HTMLElement} filterToRemove
- */
-function desactivateFilter(button, filterToRemove) {
-  const filterValue = button.value.toLowerCase();
-
-  // Remove clicked filter active from array
-  activeFiltersArray = activeFiltersArray.filter(
-    (filt) => filt.getAttribute("value").toLowerCase() !== filterValue
-  );
-
-  // Remove filter active
-  if (filterToRemove) {
-    filterToRemove.remove();
-  }
-
-  // Desactivate active button in scrolling menu
-  button.classList.remove("btn_active");
-  button.querySelector("em").remove();
-
-  // Remove filters active section if no filter is active
-  if (activeFiltersArray.length === 0) {
-    activeFiltersSection.classList.add("hidden");
-  }
-}
-
-function displayActiveFilters() {
-  // Clear filters
-  activeFiltersSection.innerHTML = "";
-
-  // Display active filters
-  activeFiltersArray.forEach((filt) => {
-    activeFiltersSection.append(filt);
-  });
-
-  // Remove filters active section if no filter is active
-  if (activeFiltersArray.length === 0) {
-    activeFiltersSection.classList.add("hidden");
-  }
-}
-
-
-sort(filters, recipeArr, activeFiltersArray);
