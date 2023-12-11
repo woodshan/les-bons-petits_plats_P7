@@ -2,32 +2,34 @@ import { createElement } from "../utils/createElement.js";
 import { sort } from "../utils/sort.js";
 
 const activeFiltersSection = document.querySelector(".filters_active_section");
+// Array of filters active
+let activeFiltersArray = [];
 
-// Update active filters array
-let updatedActiveFiltersArr = [];
+// let activeFilterCategory = [{ ingredients: [] }, { appliances: [] }, { ustensils: [] }];
+let activeFilterCategory = {
+  ingredients: [],
+  appliances: [],
+  ustensils: [],
+  keyword: "",
+};
 
 /**
  * Select/Unselect filter choices
- * @param {HTMLElement} button clicked btn
- * @param {Object} activeFiltersArray
+ * @param {HTMLElement} button
  */
-export function selectFilter(button, activeFiltersArray) {
+export function selectFilter(button) {
   const isActive = button.classList.contains("btn_active");
 
   if (!isActive) {
     // Active filter
-    activeFiltersArray = activateFilter(button);
+    activateFilter(button);
   } else {
     // Desactive filter
-    activeFiltersArray = desactivateFilter(button);
+    desactivateFilter(button);
   }
 
   // Display actives filters
-  displayActiveFilters(activeFiltersArray);
-
-  sort(activeFiltersArray);
-
-  return activeFiltersArray;
+  displayActiveFilters();
 }
 
 /**
@@ -61,17 +63,24 @@ function activateFilter(button) {
   activeFilter.append(removebtn);
 
   // Add active filter to array
-  updatedActiveFiltersArr.push(activeFilter);
+  activeFiltersArray.push(activeFilter);
+
+  const filter =
+    button.parentElement.parentElement.querySelector(".btn_filter").value;
+  if (filter == "ingredients") {
+    activeFilterCategory.ingredients.push(button.getAttribute("value"));
+  } else if (filter == "appliances") {
+    activeFilterCategory.appliances.push(button.getAttribute("value"));
+  } else if (filter == "ustensils") {
+    activeFilterCategory.ustensils.push(button.getAttribute("value"));
+  }
 
   // Remove filter active on click filter active btn
   removebtn.addEventListener("click", () => {
-    updatedActiveFiltersArr = desactivateFilter(
-      button,
-      removebtn.parentElement
-    );
+    desactivateFilter(button, removebtn.parentElement);
   });
 
-  return updatedActiveFiltersArr;
+  sort(activeFiltersArray, activeFilterCategory);
 }
 
 /**
@@ -83,7 +92,7 @@ function desactivateFilter(button, filterToRemove) {
   const filterValue = button.value.toLowerCase();
 
   // Remove clicked filter active from array
-  updatedActiveFiltersArr = updatedActiveFiltersArr.filter(
+  activeFiltersArray = activeFiltersArray.filter(
     (filt) => filt.getAttribute("value").toLowerCase() !== filterValue
   );
 
@@ -97,18 +106,31 @@ function desactivateFilter(button, filterToRemove) {
   button.querySelector("em").remove();
 
   // Remove filters active section if no filter is active
-  if (updatedActiveFiltersArr.length === 0) {
+  if (activeFiltersArray.length === 0) {
     activeFiltersSection.classList.add("hidden");
   }
 
-  return updatedActiveFiltersArr;
+  const filter =
+    button.parentElement.parentElement.querySelector(".btn_filter").value;
+
+  if (filter == "ingredients") {
+    activeFilterCategory.ingredients = activeFilterCategory.ingredients.filter(
+      (ingredient) => ingredient !== button.getAttribute("value")
+    );
+  } else if (filter == "appliances") {
+    activeFilterCategory.appliances = activeFilterCategory.appliances.filter(
+      (appliance) => appliance !== button.getAttribute("value")
+    );
+  } else if (filter == "ustensils") {
+    activeFilterCategory.ustensils = activeFilterCategory.ustensils.filter(
+      (ustensil) => ustensil !== button.getAttribute("value")
+    );
+  }
+
+  sort(activeFiltersArray, activeFilterCategory);
 }
 
-/**
- *
- * @param {Object} activeFiltersArray
- */
-function displayActiveFilters(activeFiltersArray) {
+function displayActiveFilters() {
   // Clear filters
   activeFiltersSection.innerHTML = "";
 
@@ -127,26 +149,32 @@ function displayActiveFilters(activeFiltersArray) {
 // import { sort } from "../utils/sort.js";
 
 // const activeFiltersSection = document.querySelector(".filters_active_section");
-// // Array of filters active
-// let activeFiltersArray = [];
+
+// // Update active filters array
+// let updatedActiveFiltersArr = [];
 
 // /**
 //  * Select/Unselect filter choices
-//  * @param {HTMLElement} button
+//  * @param {HTMLElement} button clicked btn
+//  * @param {Object} activeFiltersArray
 //  */
-// export function selectFilter(button) {
+// export function selectFilter(button, activeFiltersArray) {
 //   const isActive = button.classList.contains("btn_active");
 
 //   if (!isActive) {
 //     // Active filter
-//     activateFilter(button);
+//     activeFiltersArray = activateFilter(button);
 //   } else {
 //     // Desactive filter
-//     desactivateFilter(button);
+//     activeFiltersArray = desactivateFilter(button);
 //   }
 
 //   // Display actives filters
-//   displayActiveFilters();
+//   displayActiveFilters(activeFiltersArray);
+
+//   sort(button, activeFiltersArray);
+
+//   return activeFiltersArray;
 // }
 
 // /**
@@ -180,12 +208,17 @@ function displayActiveFilters(activeFiltersArray) {
 //   activeFilter.append(removebtn);
 
 //   // Add active filter to array
-//   activeFiltersArray.push(activeFilter);
+//   updatedActiveFiltersArr.push(activeFilter);
 
 //   // Remove filter active on click filter active btn
 //   removebtn.addEventListener("click", () => {
-//     desactivateFilter(button, removebtn.parentElement);
+//     updatedActiveFiltersArr = desactivateFilter(
+//       button,
+//       removebtn.parentElement
+//     );
 //   });
+
+//   return updatedActiveFiltersArr;
 // }
 
 // /**
@@ -197,7 +230,7 @@ function displayActiveFilters(activeFiltersArray) {
 //   const filterValue = button.value.toLowerCase();
 
 //   // Remove clicked filter active from array
-//   activeFiltersArray = activeFiltersArray.filter(
+//   updatedActiveFiltersArr = updatedActiveFiltersArr.filter(
 //     (filt) => filt.getAttribute("value").toLowerCase() !== filterValue
 //   );
 
@@ -211,12 +244,18 @@ function displayActiveFilters(activeFiltersArray) {
 //   button.querySelector("em").remove();
 
 //   // Remove filters active section if no filter is active
-//   if (activeFiltersArray.length === 0) {
+//   if (updatedActiveFiltersArr.length === 0) {
 //     activeFiltersSection.classList.add("hidden");
 //   }
+
+//   return updatedActiveFiltersArr;
 // }
 
-// function displayActiveFilters() {
+// /**
+//  *
+//  * @param {Object} activeFiltersArray
+//  */
+// function displayActiveFilters(activeFiltersArray) {
 //   // Clear filters
 //   activeFiltersSection.innerHTML = "";
 

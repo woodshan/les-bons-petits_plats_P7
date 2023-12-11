@@ -6,9 +6,6 @@ import { searchFilter } from "../utils/searchFilter.js";
 // Select filters
 const filters = document.querySelectorAll(".filter");
 
-// Array of filters active
-let activeFiltersArray = [];
-
 // Array without duplicate elements
 let recipeArr = { ingredients: [], appliances: [], ustensils: [] };
 
@@ -28,7 +25,7 @@ export function filtersTemplate(recipes) {
       ) {
         showFilter(filter);
       } else if (button.classList.contains("btn_filter")) {
-        activeFiltersArray = selectFilter(button, activeFiltersArray);
+        selectFilter(button);
       }
     });
 

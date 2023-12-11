@@ -1,5 +1,3 @@
-import { sort } from "./sort.js";
-
 let searchedFilter = [];
 
 export function searchFilter(filter, e, recipeArr) {
