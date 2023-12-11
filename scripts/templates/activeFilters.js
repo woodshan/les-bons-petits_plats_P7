@@ -5,7 +5,6 @@ const activeFiltersSection = document.querySelector(".filters_active_section");
 // Array of filters active
 let activeFiltersArray = [];
 
-// let activeFilterCategory = [{ ingredients: [] }, { appliances: [] }, { ustensils: [] }];
 let activeFilterCategory = {
   ingredients: [],
   appliances: [],
@@ -17,12 +16,12 @@ let activeFilterCategory = {
  * Select/Unselect filter choices
  * @param {HTMLElement} button
  */
-export function selectFilter(button) {
+export function selectFilter(button, recipeArr) {
   const isActive = button.classList.contains("btn_active");
 
   if (!isActive) {
     // Active filter
-    activateFilter(button);
+    activateFilter(button, recipeArr);
   } else {
     // Desactive filter
     desactivateFilter(button);
@@ -36,7 +35,7 @@ export function selectFilter(button) {
  * Handle active filters
  * @param {HTMLElement} button
  */
-function activateFilter(button) {
+function activateFilter(button, recipeArr) {
   // Active selected btn
   button.classList.add("btn_active");
 
@@ -80,7 +79,7 @@ function activateFilter(button) {
     desactivateFilter(button, removebtn.parentElement);
   });
 
-  sort(activeFiltersArray, activeFilterCategory);
+  sort(activeFilterCategory, recipeArr);
 }
 
 /**
@@ -127,7 +126,7 @@ function desactivateFilter(button, filterToRemove) {
     );
   }
 
-  sort(activeFiltersArray, activeFilterCategory);
+  sort(activeFilterCategory);
 }
 
 function displayActiveFilters() {

@@ -1,17 +1,17 @@
 import { createElement } from "../utils/createElement.js";
 import { selectFilter } from "./activeFilters.js";
-// import { sort } from "../utils/sort.js";
 import { searchFilter } from "../utils/searchFilter.js";
 
 // Select filters
 const filters = document.querySelectorAll(".filter");
 
-// Array without duplicate elements
+// // Array without duplicate elements
 let recipeArr = { ingredients: [], appliances: [], ustensils: [] };
 
 export function filtersTemplate(recipes) {
+
   filters.forEach((filter) => {
-    displayFiltersCategories(filter, recipes);
+    displayFiltersCategories(filter, recipes, recipeArr, displayFilters);
 
     filter.addEventListener("click", (e) => {
       // Select button
@@ -25,7 +25,7 @@ export function filtersTemplate(recipes) {
       ) {
         showFilter(filter);
       } else if (button.classList.contains("btn_filter")) {
-        selectFilter(button);
+        selectFilter(button, recipeArr);
       }
     });
 
@@ -56,7 +56,7 @@ function showFilter(filter) {
  * @param {HTMLElement} filter
  * @param {Object} recipes recipes data
  */
-function displayFiltersCategories(filter, recipes) {
+export function displayFiltersCategories(filter, recipes, recipeArr, displayFilters) {
   // Select filter
   let filterValue = filter.children[0].value;
   let openFilterContainer = filter.children[1];
@@ -110,7 +110,7 @@ function displayFiltersCategories(filter, recipes) {
  * @param {Object} recipeArrCategory
  * @param {HTMLElement} container
  */
-export function displayFilters(recipeArrCategory, container) {
+function displayFilters(recipeArrCategory, container) {
   // Display dom element for each filters
   recipeArrCategory.forEach((element) => {
     const btnElement = createElement("button", {
