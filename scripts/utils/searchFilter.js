@@ -45,10 +45,18 @@ function searchEachFilter(filter, value, recipeArr) {
       });
     });
   } else {
-    // Hide all filters buttons
-    filtersContainer
-      .querySelectorAll(".btn_filter")
-      .forEach((btn) => btn.classList.remove("hidden"));
+    // Show all filters buttons
+    // filtersContainer
+    //   .querySelectorAll(".btn_filter")
+    //   .forEach((btn) => btn.classList.remove("hidden"));
+
+    filtersContainer.querySelectorAll(".btn_filter").forEach((btn) => {
+      recipeArr.forEach((filt) => {
+        if(filt == btn.value) {
+          btn.classList.remove("hidden");
+        }
+      })
+    });
 
     console.log("Aucun filtre recherché");
   }

@@ -24,7 +24,7 @@ export function selectFilter(button, recipeArr) {
     activateFilter(button, recipeArr);
   } else {
     // Desactive filter
-    desactivateFilter(button);
+    desactivateFilter(button, "", recipeArr);
   }
 
   // Display actives filters
@@ -76,7 +76,7 @@ function activateFilter(button, recipeArr) {
 
   // Remove filter active on click filter active btn
   removebtn.addEventListener("click", () => {
-    desactivateFilter(button, removebtn.parentElement);
+    desactivateFilter(button, removebtn.parentElement, recipeArr);
   });
 
   sort(activeFilterCategory, recipeArr);
@@ -86,8 +86,9 @@ function activateFilter(button, recipeArr) {
  * Handle active filters
  * @param {HTMLElement} button
  * @param {HTMLElement} filterToRemove
+ * @param {Object} recipeArr
  */
-function desactivateFilter(button, filterToRemove) {
+function desactivateFilter(button, filterToRemove, recipeArr) {
   const filterValue = button.value.toLowerCase();
 
   // Remove clicked filter active from array
@@ -96,7 +97,7 @@ function desactivateFilter(button, filterToRemove) {
   );
 
   // Remove filter active
-  if (filterToRemove) {
+  if (filterToRemove && filterToRemove !== "") {
     filterToRemove.remove();
   }
 
@@ -126,7 +127,7 @@ function desactivateFilter(button, filterToRemove) {
     );
   }
 
-  sort(activeFilterCategory);
+  sort(activeFilterCategory, recipeArr);
 }
 
 function displayActiveFilters() {
@@ -143,6 +144,155 @@ function displayActiveFilters() {
     activeFiltersSection.classList.add("hidden");
   }
 }
+
+
+// // Veritable version
+// import { createElement } from "../utils/createElement.js";
+// import { sort } from "../utils/sort.js";
+
+// const activeFiltersSection = document.querySelector(".filters_active_section");
+// // Array of filters active
+// let activeFiltersArray = [];
+
+// let activeFilterCategory = {
+//   ingredients: [],
+//   appliances: [],
+//   ustensils: [],
+//   keyword: "",
+// };
+
+// /**
+//  * Select/Unselect filter choices
+//  * @param {HTMLElement} button
+//  */
+// export function selectFilter(button, recipeArr) {
+//   const isActive = button.classList.contains("btn_active");
+
+//   if (!isActive) {
+//     // Active filter
+//     activateFilter(button, recipeArr);
+//   } else {
+//     // Desactive filter
+//     desactivateFilter(button);
+//   }
+
+//   // Display actives filters
+//   displayActiveFilters();
+// }
+
+// /**
+//  * Handle active filters
+//  * @param {HTMLElement} button
+//  */
+// function activateFilter(button, recipeArr) {
+//   // Active selected btn
+//   button.classList.add("btn_active");
+
+//   // Display filter active section
+//   activeFiltersSection.classList.remove("hidden");
+
+//   const filterValue = button.innerText.toLowerCase();
+
+//   const xMark = createElement("em", {
+//     class: "fa-solid fa-circle-xmark",
+//     role: "button",
+//   });
+//   button.append(xMark);
+
+//   // Display filter active
+//   const activeFilter = createElement("span", {
+//     class: "btn_filter filter_active",
+//     value: filterValue,
+//   });
+//   activeFilter.innerText = button.innerText;
+//   const removebtn = createElement("button", {
+//     class: "fa-solid fa-xmark remove_filter",
+//   });
+//   activeFilter.append(removebtn);
+
+//   // Add active filter to array
+//   activeFiltersArray.push(activeFilter);
+
+//   const filter =
+//     button.parentElement.parentElement.querySelector(".btn_filter").value;
+//   if (filter == "ingredients") {
+//     activeFilterCategory.ingredients.push(button.getAttribute("value"));
+//   } else if (filter == "appliances") {
+//     activeFilterCategory.appliances.push(button.getAttribute("value"));
+//   } else if (filter == "ustensils") {
+//     activeFilterCategory.ustensils.push(button.getAttribute("value"));
+//   }
+
+//   // Remove filter active on click filter active btn
+//   removebtn.addEventListener("click", () => {
+//     desactivateFilter(button, removebtn.parentElement);
+//   });
+
+//   sort(activeFilterCategory, recipeArr);
+// }
+
+// /**
+//  * Handle active filters
+//  * @param {HTMLElement} button
+//  * @param {HTMLElement} filterToRemove
+//  */
+// function desactivateFilter(button, filterToRemove) {
+//   const filterValue = button.value.toLowerCase();
+
+//   // Remove clicked filter active from array
+//   activeFiltersArray = activeFiltersArray.filter(
+//     (filt) => filt.getAttribute("value").toLowerCase() !== filterValue
+//   );
+
+//   // Remove filter active
+//   if (filterToRemove) {
+//     filterToRemove.remove();
+//   }
+
+//   // Desactivate active button in scrolling menu
+//   button.classList.remove("btn_active");
+//   button.querySelector("em").remove();
+
+//   // Remove filters active section if no filter is active
+//   if (activeFiltersArray.length === 0) {
+//     activeFiltersSection.classList.add("hidden");
+//   }
+
+//   const filter =
+//     button.parentElement.parentElement.querySelector(".btn_filter").value;
+
+//   if (filter == "ingredients") {
+//     activeFilterCategory.ingredients = activeFilterCategory.ingredients.filter(
+//       (ingredient) => ingredient !== button.getAttribute("value")
+//     );
+//   } else if (filter == "appliances") {
+//     activeFilterCategory.appliances = activeFilterCategory.appliances.filter(
+//       (appliance) => appliance !== button.getAttribute("value")
+//     );
+//   } else if (filter == "ustensils") {
+//     activeFilterCategory.ustensils = activeFilterCategory.ustensils.filter(
+//       (ustensil) => ustensil !== button.getAttribute("value")
+//     );
+//   }
+
+//   sort(activeFilterCategory);
+// }
+
+// function displayActiveFilters() {
+//   // Clear filters
+//   activeFiltersSection.innerHTML = "";
+
+//   // Display active filters
+//   activeFiltersArray.forEach((filt) => {
+//     activeFiltersSection.append(filt);
+//   });
+
+//   // Remove filters active section if no filter is active
+//   if (activeFiltersArray.length === 0) {
+//     activeFiltersSection.classList.add("hidden");
+//   }
+// }
+
 
 // import { createElement } from "../utils/createElement.js";
 // import { sort } from "../utils/sort.js";

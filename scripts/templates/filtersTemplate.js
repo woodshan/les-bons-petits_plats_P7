@@ -6,9 +6,9 @@ import { searchFilter } from "../utils/searchFilter.js";
 const filters = document.querySelectorAll(".filter");
 
 // // Array without duplicate elements
-let recipeArr = { ingredients: [], appliances: [], ustensils: [] };
+// let recipeArr = { ingredients: [], appliances: [], ustensils: [] };
 
-export function filtersTemplate(recipes) {
+export function filtersTemplate(recipes, recipeArr) {
 
   filters.forEach((filter) => {
     displayFiltersCategories(filter, recipes, recipeArr, displayFilters);

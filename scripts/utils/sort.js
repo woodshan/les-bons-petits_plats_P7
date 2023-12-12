@@ -7,7 +7,7 @@ let matchingRecipes = [];
 export function sort(activeFilterCategory, recipeArr) {
   matchingRecipes = [];
 
-  recipeArr = { ingredients: [], appliances: [], ustensils: [] };
+  Object.keys(recipeArr).forEach(key => Array.isArray(recipeArr[key]) ? recipeArr[key] = [] : recipeArr[key] = "");
 
   // Array of searched recipes
   matchingRecipes = searchRecipe(activeFilterCategory);
@@ -19,6 +19,8 @@ export function sort(activeFilterCategory, recipeArr) {
 
   // Display searched recipe card
   displayRecipeCard(matchingRecipes);
+
+  // console.log(recipeArr)
 }
 
 // Filter recipes based on three criteria :  ingredients, ustensils, appliances
