@@ -2,6 +2,7 @@ import { recipes } from "../../data/recipes.js";
 import { displayFiltersCategories } from "../templates/filtersTemplate.js";
 import { displayRecipes } from "../templates/recipeTemplate.js";
 import { createElement } from "./createElement.js";
+import { recipeArr } from "../templates/filtersTemplate.js";
 
 let matchingRecipes = [];
 
@@ -10,7 +11,7 @@ let matchingRecipes = [];
  * @param {Object} activeFilterCategory array of searched filters/values
  * @param {Object} recipeArr array of remaining tags
  */
-export function sort(activeFilterCategory, recipeArr) {
+export function sort(activeFilterCategory) {
   // Array of searched recipes
   matchingRecipes = [];
 
@@ -27,7 +28,7 @@ export function sort(activeFilterCategory, recipeArr) {
   const filters = document.querySelectorAll(".filter");
   // Display filter based on searched recipes
   filters.forEach((filter) => {
-    displayFiltersCategories(filter, matchingRecipes, recipeArr, displayFilter);
+    displayFiltersCategories(filter, matchingRecipes, displayFilter);
   });
 
   // Display searched recipe card

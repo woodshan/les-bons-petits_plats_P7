@@ -1,13 +1,17 @@
+import { recipes } from "../../data/recipes.js";
 import { createElement } from "../utils/createElement.js";
-import { selectFilter } from "./activeFilters.js";
+import { selectFilter } from "./selectFilter.js";
 import { searchFilter } from "../utils/searchTag.js";
+
+// Array of remaining tags
+export const recipeArr = { ingredients: [], appliances: [], ustensils: []};
 
 // Select filters
 const filters = document.querySelectorAll(".filter");
 
-export function filtersTemplate(recipes, recipeArr, activeFilterCategory) {
+export function filtersTemplate(recipes) {
   filters.forEach((filter) => {
-    displayFiltersCategories(filter, recipes, recipeArr, displayFilters);
+    displayFiltersCategories(filter, recipes, displayFilters);
 
     filter.addEventListener("click", (e) => {
       // Select button
@@ -21,12 +25,12 @@ export function filtersTemplate(recipes, recipeArr, activeFilterCategory) {
       ) {
         showFilter(filters, filter);
       } else if (button.classList.contains("btn_filter")) {
-        selectFilter(button, activeFilterCategory, recipeArr);
+        selectFilter(button);
       }
     });
 
     filter.querySelector(".research_filter").addEventListener("input", (e) => {
-      searchFilter(filter, e, recipeArr);
+      searchFilter(filter, e);
     });
   });
 }
@@ -65,7 +69,6 @@ function showFilter(filters, filter) {
 export function displayFiltersCategories(
   filter,
   recipes,
-  recipeArr,
   displayFilters
 ) {
   // Select filter
