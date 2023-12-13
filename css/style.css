@@ -133,13 +133,12 @@ main {
     max-height: 56px;
     z-index: 1;
     overflow-y: auto;
-    -ms-overflow-style: none; /* Masque la barre de défilement pour Internet Explorer */
-    scrollbar-width: none; /* Masque la barre de défilement pour Firefox */
+    scrollbar-width: none; /* Hide scroll bar for firefox */
+}
 
-    /* Masque la barre de défilement pour les navigateurs WebKit (Chrome, Safari, etc.) */
-    &::-webkit-scrollbar {
-        display: none;
-    }
+/* hide scroll bar for (Chrome, Safari, etc.) */
+.filter::-webkit-scrollbar {
+    display: none;
 }
 
 .show_filter {

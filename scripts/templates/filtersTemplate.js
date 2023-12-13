@@ -1,6 +1,6 @@
 import { createElement } from "../utils/createElement.js";
 import { selectFilter } from "./activeFilters.js";
-import { searchFilter } from "../utils/searchFilter.js";
+import { searchFilter } from "../utils/searchTag.js";
 
 // Select filters
 const filters = document.querySelectorAll(".filter");

@@ -5,6 +5,11 @@ import { createElement } from "./createElement.js";
 
 let matchingRecipes = [];
 
+/**
+ * Filter, display recipes & show remaning tags
+ * @param {Object} activeFilterCategory array of searched filters/values
+ * @param {Object} recipeArr array of remaining tags
+ */
 export function sort(activeFilterCategory, recipeArr) {
   // Array of searched recipes
   matchingRecipes = [];
@@ -29,7 +34,11 @@ export function sort(activeFilterCategory, recipeArr) {
   displayRecipeCard(matchingRecipes);
 }
 
-// Filter recipes based on three criteria :  ingredients, ustensils, appliances
+/**
+ * Filter recipes based on three criteria :  ingredients, ustensils, appliances
+ * @param {Object} activeFilterCategory array of searched filters/values
+ * @returns searched recipes
+ */
 export function searchRecipe(activeFilterCategory) {
   return recipes.filter(
     (recipe) =>
@@ -48,6 +57,7 @@ export function searchRecipe(activeFilterCategory) {
       activeFilterCategory.appliances.every(
         (applianceFilt) => recipe.appliance.toLowerCase() === applianceFilt
       ) &&
+      // Check if recipe includes user typed value
       (recipe.name.toLowerCase().includes(activeFilterCategory.keyword) ||
         recipe.description
           .toLowerCase()
@@ -60,6 +70,11 @@ export function searchRecipe(activeFilterCategory) {
   );
 }
 
+/**
+ * Show filters based on remain recipes
+ * @param {Object} recipeCategory
+ * @param {HTMLElement} filterContainer
+ */
 function displayFilter(recipeCategory, filterContainer) {
   filterContainer
     .querySelectorAll(".btn_filter")
@@ -75,6 +90,10 @@ function displayFilter(recipeCategory, filterContainer) {
   });
 }
 
+/**
+ * Display searched recipes cards and display error msg
+ * @param {Object} matchingRecipes array of recipes corresponding to filters
+ */
 function displayRecipeCard(matchingRecipes) {
   // Remove duplicate recipe
   matchingRecipes = [...new Set(matchingRecipes)];
@@ -85,11 +104,11 @@ function displayRecipeCard(matchingRecipes) {
   // Display searched recipe cards
   displayRecipes(matchingRecipes);
 
-  if(matchingRecipes.length == 0) {
+  if (matchingRecipes.length == 0) {
     const recipeSection = document.querySelector(".recipes_section");
     const typedValue = document.querySelector(".research").value;
 
-    const errorMsg = createElement("p", {class: "no_result"});
+    const errorMsg = createElement("p", { class: "no_result" });
     errorMsg.innerText = `Aucune recette ne contient "${typedValue}" vous pouvez chercher "Limonade de coco", "Tarte au thon", etc.`;
 
     recipeSection.append(errorMsg);

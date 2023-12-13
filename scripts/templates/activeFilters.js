@@ -1,6 +1,8 @@
 import { createElement } from "../utils/createElement.js";
 import { sort } from "../utils/sort.js";
 
+export const hello = "hello";
+
 const activeFiltersSection = document.querySelector(".filters_active_section");
 // Array of filters active
 let activeFiltersArray = [];
