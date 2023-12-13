@@ -5,11 +5,7 @@ import { searchFilter } from "../utils/searchFilter.js";
 // Select filters
 const filters = document.querySelectorAll(".filter");
 
-// // Array without duplicate elements
-// let recipeArr = { ingredients: [], appliances: [], ustensils: [] };
-
-export function filtersTemplate(recipes, recipeArr) {
-
+export function filtersTemplate(recipes, recipeArr, activeFilterCategory) {
   filters.forEach((filter) => {
     displayFiltersCategories(filter, recipes, recipeArr, displayFilters);
 
@@ -23,9 +19,9 @@ export function filtersTemplate(recipes, recipeArr) {
         button.value == "appliances" ||
         button.value == "ustensils"
       ) {
-        showFilter(filter);
+        showFilter(filters, filter);
       } else if (button.classList.contains("btn_filter")) {
-        selectFilter(button, recipeArr);
+        selectFilter(button, activeFilterCategory, recipeArr);
       }
     });
 
@@ -37,18 +33,28 @@ export function filtersTemplate(recipes, recipeArr) {
 
 /**
  * Show/Hide filter
- * @param {HTMLElement} filter
+ * @param {HTMLElement} filters Array of filters
+ * @param {HTMLElement} filter 
  */
-function showFilter(filter) {
-  const filterHide = filter.querySelector(".filter_expanded");
-  const chevron = filter.querySelector(".fa-chevron-down");
+function showFilter(filters, filter) {
+  filters.forEach((filt) => {
+    if (filt == filter) {
+      const filterHide = filter.querySelector(".filter_expanded");
+      const chevron = filter.querySelector(".fa-chevron-down");
 
-  filterHide.classList.toggle("hidden");
+      filterHide.classList.toggle("hidden");
 
-  chevron.classList.toggle("down");
-  chevron.classList.toggle("up");
+      chevron.classList.toggle("down");
+      chevron.classList.toggle("up");
 
-  filter.classList.toggle("show_filter");
+      filter.classList.toggle("show_filter");
+    } else {
+      filt.classList.remove("show_filter");
+      filt.querySelector(".filter_expanded").classList.add("hidden");
+      filt.querySelector(".fa-chevron-down").classList.add("down");
+      filt.querySelector(".fa-chevron-down").classList.remove("up");
+    }
+  });
 }
 
 /**
@@ -56,7 +62,12 @@ function showFilter(filter) {
  * @param {HTMLElement} filter
  * @param {Object} recipes recipes data
  */
-export function displayFiltersCategories(filter, recipes, recipeArr, displayFilters) {
+export function displayFiltersCategories(
+  filter,
+  recipes,
+  recipeArr,
+  displayFilters
+) {
   // Select filter
   let filterValue = filter.children[0].value;
   let openFilterContainer = filter.children[1];

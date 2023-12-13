@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/99f8905dd1.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/style.css">
     <title>Les bons petits plats</title>
 </head>
 
@@ -14,7 +14,7 @@
     <header>
         <div class="header_container">
             <div class="logo_container">
-                <img src="/assets/images/logo.svg" alt="Logo de l'entreprises Les Petits Plats" class="" />
+                <img src="/assets/images/logo.svg" alt="Logo de l'entreprises Les Petits Plats" class="">
             </div>
             <h1 class="header_title">CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES</h1>
             <nav class="search_nav">
@@ -80,14 +80,15 @@
             <h2 class="total_recipes"></h2>
         </section>
 
-        <section class="filters_active_section hidden">
+        <div class="filters_active_section hidden">
             <!-- <span value="ingredient" class="btn_filter filter_active">
                 Ingrédients
                 <button class="fa-solid fa-xmark remove_filter"></button>
             </span> -->
-        </section>
+        </div>
 
         <section class="recipes_section">
+            <!-- <p class="no_result">Aucune recette ne contient "<span class="no_result_value"></span>" vous pouvez chercher "Limonade de coco", "Tarte au thon", etc.</p> -->
             <!-- <article class="recipe_card">
                 <div class="img_container">
                     <img src="/assets/recipes/Recette01.jpg" alt="Recette 1" class="recipe_img">
@@ -127,7 +128,8 @@
             </article> -->
         </section>
     </main>
+    <script type="module" src="./scripts/index.js"></script>
 </body>
-<script type="module" src="./scripts/index.js"></script>
+
 
 </html>

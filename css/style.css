@@ -150,11 +150,6 @@ main {
     padding: 17px 16px;
 }
 
-/* .btn_filter {
-    gap: 10px;
-    width:100%;  
-} */
-
 .btn_filter {
     display:flex;
     justify-content: space-between;
@@ -234,6 +229,12 @@ main {
     display:grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5em;
+}
+
+.no_result {
+    font-size: 1.5em;
+    text-align: center;
+    grid-column: 2;
 }
 
 .recipe_card {
