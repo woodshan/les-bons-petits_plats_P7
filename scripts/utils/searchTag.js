@@ -1,6 +1,8 @@
+import { recipeArr } from "../templates/filtersTemplate.js";
+
 let searchedFilter = [];
 
-export function searchFilter(filter, e, recipeArr) {
+export function searchFilter(filter, e) {
   switch (filter.children[0].value) {
     case "ingredients":
       searchEachFilter(filter, e.target.value, recipeArr.ingredients);
@@ -20,16 +22,16 @@ export function searchFilter(filter, e, recipeArr) {
  * Display searched filter
  * @param {HTMLElement} filter
  * @param {String} value
- * @param {Object} recipeArr
+ * @param {Object} recipeCategory
  */
-function searchEachFilter(filter, value, recipeArr) {
+function searchEachFilter(filter, value, recipeCategory) {
   let filtersContainer = filter.children[1];
 
   if (value !== "") {
     // Get array of searched value using typed value
-    searchedFilter = recipeArr.filter((ingr) =>
-      ingr.startsWith(value.toLocaleLowerCase()) || value.length >= 3
-        ? ingr.includes(value.toLocaleLowerCase())
+    searchedFilter = recipeCategory.filter((recipe) =>
+      recipe.startsWith(value.toLocaleLowerCase()) || value.length >= 3
+        ? recipe.includes(value.toLocaleLowerCase())
         : ""
     );
 
@@ -46,12 +48,8 @@ function searchEachFilter(filter, value, recipeArr) {
     });
   } else {
     // Show all filters buttons
-    // filtersContainer
-    //   .querySelectorAll(".btn_filter")
-    //   .forEach((btn) => btn.classList.remove("hidden"));
-
     filtersContainer.querySelectorAll(".btn_filter").forEach((btn) => {
-      recipeArr.forEach((filt) => {
+      recipeCategory.forEach((filt) => {
         if(filt == btn.value) {
           btn.classList.remove("hidden");
         }
