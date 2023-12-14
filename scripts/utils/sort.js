@@ -41,34 +41,153 @@ export function sort(activeFilterCategory) {
  * @returns searched recipes
  */
 export function searchRecipe(activeFilterCategory) {
-  return recipes.filter(
-    (recipe) =>
-      // Check if every active filter ingredient match with recipes ingredients in each recipe
-      activeFilterCategory.ingredients.every((ingredientFilt) =>
-        recipe.ingredients.some(
-          (recipeIngredient) =>
-            recipeIngredient.ingredient.toLowerCase() === ingredientFilt
-        )
-      ) &&
-      activeFilterCategory.ustensils.every((ustensilFilt) =>
-        recipe.ustensils.some(
-          (ustensil) => ustensil.toLowerCase() === ustensilFilt
-        )
-      ) &&
-      activeFilterCategory.appliances.every(
-        (applianceFilt) => recipe.appliance.toLowerCase() === applianceFilt
-      ) &&
-      // Check if recipe includes user typed value
-      (recipe.name.toLowerCase().includes(activeFilterCategory.keyword) ||
-        recipe.description
+  // filter
+  for (let i = 0; i < recipes.length; i++) {
+    // INGREDIENTS
+    // every
+    let allIngredientsMatch = true;
+    for (let j = 0; j < activeFilterCategory.ingredients.length; j++) {
+      // some
+      let foundIngredient = false;
+      for (let n = 0; n < recipes[i].ingredients.length; n++) {
+        if (
+          activeFilterCategory.ingredients[j] ==
+          recipes[i].ingredients[n].ingredient.toLowerCase()
+        ) {
+          foundIngredient = true;
+        }
+      }
+
+      if (!foundIngredient) {
+        allIngredientsMatch = false;
+      }
+    }
+
+    // USTENSILS
+    // every
+    let allUstensilsMatch = true;
+    for (let k = 0; k < activeFilterCategory.ustensils.length; k++) {
+      // some
+      let foundUstensil = false;
+      for (let u = 0; u < recipes[i].ustensils.length; u++) {
+        if (
+          activeFilterCategory.ustensils[k] ==
+          recipes[i].ustensils[u].toLowerCase()
+        ) {
+          foundUstensil = true;
+        }
+      }
+
+      if (!foundUstensil) {
+        allUstensilsMatch = false;
+      }
+    }
+
+    // APPLIANCES
+    let allAppliancesMatch = true;
+    for (let h = 0; h < activeFilterCategory.appliances.length; h++) {
+      if (
+        recipes[i].appliance.toLowerCase() !==
+        activeFilterCategory.appliances[h]
+      ) {
+        allAppliancesMatch = false;
+      }
+    }
+
+    // KEYWORD
+    let recipeKeywordFound = false;
+    if (
+      recipes[i].name.toLowerCase().includes(activeFilterCategory.keyword) ||
+      recipes[i].description
+        .toLowerCase()
+        .includes(activeFilterCategory.keyword)
+    ) {
+      recipeKeywordFound = true;
+    }
+    // some
+    let ingredientKeywordMatch = false;
+    for (let g = 0; g < recipes[i].ingredients.length; g++) {
+      if (
+        recipes[i].ingredients[g].ingredient
           .toLowerCase()
-          .includes(activeFilterCategory.keyword) ||
-        recipe.ingredients.some((recipeIngredient) =>
-          recipeIngredient.ingredient
-            .toLowerCase()
-            .includes(activeFilterCategory.keyword)
-        ))
-  );
+          .includes(activeFilterCategory.keyword)
+      ) {
+        ingredientKeywordMatch = true;
+      }
+    }
+
+    if (recipeKeywordFound || ingredientKeywordMatch) {
+      recipeKeywordFound = true;
+    } else {
+      recipeKeywordFound = false;
+    }
+
+    if (
+      allIngredientsMatch &&
+      allUstensilsMatch &&
+      allAppliancesMatch &&
+      recipeKeywordFound
+    ) {
+      matchingRecipes.push(recipes[i]);
+    }
+  }
+
+  return matchingRecipes;
+
+  // return recipes.filter(
+  //   (recipe) =>
+  //     // Check if every active filter ingredient match with recipes ingredients in each recipe
+  //     activeFilterCategory.ingredients.every((ingredientFilt) =>
+  //       recipe.ingredients.some(
+  //         (recipeIngredient) =>
+  //           recipeIngredient.ingredient.toLowerCase() === ingredientFilt
+  //       )
+  //     ) &&
+  //     activeFilterCategory.ustensils.every((ustensilFilt) =>
+  //       recipe.ustensils.some(
+  //         (ustensil) => ustensil.toLowerCase() === ustensilFilt
+  //       )
+  //     ) &&
+  //     activeFilterCategory.appliances.every(
+  //       (applianceFilt) => recipe.appliance.toLowerCase() === applianceFilt
+  //     ) &&
+  //     // Check if recipe includes user typed value
+  //     (recipe.name.toLowerCase().includes(activeFilterCategory.keyword) ||
+  //       recipe.description
+  //         .toLowerCase()
+  //         .includes(activeFilterCategory.keyword) ||
+  //       recipe.ingredients.some((recipeIngredient) =>
+  //         recipeIngredient.ingredient
+  //           .toLowerCase()
+  //           .includes(activeFilterCategory.keyword)
+  //       ))
+  // );
+
+  // // filter
+  // for (let i = 0; i < recipes.length; i++) {
+  //   let every = true;
+  //   // every
+  //   for (let a = 0; a < activeFilterCategory.ingredients.length; a++) {
+  //     // console.log(activeFilterCategory.ingredients[a])
+  //     let some = false;
+  //     // some
+  //     for (let n = 0; n < recipes[i].ingredients.length; n++) {
+  //       if (
+  //         activeFilterCategory.ingredients[a] ==
+  //         recipes[i].ingredients[n].ingredient.toLowerCase()
+  //       ) {
+  //         some = true;
+  //       }
+  //     }
+
+  //     if (!some) {
+  //       every = false;
+  //     }
+  //   }
+  //   if (every) {
+  //     console.log(recipes[i]);
+  //   }
+  // }
 }
 
 /**
