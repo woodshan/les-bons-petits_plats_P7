@@ -15,7 +15,7 @@ export function sort(activeFilterCategory) {
   // Array of searched recipes
   matchingRecipes = [];
 
-  // Extract recipeArr keys, check if is array and empty each property
+  // Extract recipeArr keys, check if is array and empty each property (empty recipeArr)
   Object.keys(recipeArr).forEach((key) =>
     Array.isArray(recipeArr[key])
       ? (recipeArr[key] = [])
@@ -26,9 +26,14 @@ export function sort(activeFilterCategory) {
   matchingRecipes = searchRecipe(activeFilterCategory);
 
   const filters = document.querySelectorAll(".filter");
-  // Display filter based on searched recipes
   filters.forEach((filter) => {
+    // Display filter based on searched recipes and fill recipeArr w/remaning tags
     displayFiltersCategories(filter, matchingRecipes, displayFilter);
+    // empty value search
+    let inputTag = filter.querySelector(".research_filter");
+    if (inputTag.value !== "") {
+      inputTag.value = "";
+    }
   });
 
   // Display searched recipe card
@@ -36,7 +41,7 @@ export function sort(activeFilterCategory) {
 }
 
 /**
- * Filter recipes based on three criteria :  ingredients, ustensils, appliances
+ * Filter recipes based on four criteria :  ingredients, ustensils, appliances, keyword
  * @param {Object} activeFilterCategory array of searched filters/values
  * @returns searched recipes
  */
@@ -97,7 +102,7 @@ export function searchRecipe(activeFilterCategory) {
     // KEYWORD
     let recipeKeywordFound = false;
     // if no keyword
-    if(activeFilterCategory.keyword == "") {
+    if (activeFilterCategory.keyword == "") {
       recipeKeywordFound = true;
     }
 

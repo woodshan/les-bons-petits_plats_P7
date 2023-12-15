@@ -1,14 +1,17 @@
-import { recipes } from "../../data/recipes.js";
 import { createElement } from "../utils/createElement.js";
 import { selectFilter } from "./selectFilter.js";
-import { searchFilter } from "../utils/searchTag.js";
+import { searchTag } from "../utils/searchTag.js";
 
 // Array of remaining tags
-export const recipeArr = { ingredients: [], appliances: [], ustensils: []};
+export const recipeArr = { ingredients: [], appliances: [], ustensils: [] };
 
 // Select filters
 const filters = document.querySelectorAll(".filter");
 
+/**
+ * Handle & display filters
+ * @param {Object} recipes data
+ */
 export function filtersTemplate(recipes) {
   filters.forEach((filter) => {
     displayFiltersCategories(filter, recipes, displayFilters);
@@ -29,8 +32,9 @@ export function filtersTemplate(recipes) {
       }
     });
 
+    // Search tag
     filter.querySelector(".research_filter").addEventListener("input", (e) => {
-      searchFilter(filter, e);
+      searchTag(filter, e);
     });
   });
 }
@@ -38,10 +42,11 @@ export function filtersTemplate(recipes) {
 /**
  * Show/Hide filter
  * @param {HTMLElement} filters Array of filters
- * @param {HTMLElement} filter 
+ * @param {HTMLElement} filter selected filter
  */
 function showFilter(filters, filter) {
   filters.forEach((filt) => {
+    // Show/hide clicked filter & hide all filters unselected
     if (filt == filter) {
       const filterHide = filter.querySelector(".filter_expanded");
       const chevron = filter.querySelector(".fa-chevron-down");
@@ -62,16 +67,12 @@ function showFilter(filters, filter) {
 }
 
 /**
- * add filters values to array & Display filters btn
- * @param {HTMLElement} filter
+ * Add filters values to array & Display filters btn
+ * @param {HTMLElement} filter selected filter
  * @param {Object} recipes recipes data
+ * @param {function} displayFilters display remaining filter btn
  */
-export function displayFiltersCategories(
-  filter,
-  recipes,
-  displayFilters
-) {
-  // Select filter
+export function displayFiltersCategories(filter, recipes, displayFilters) {
   let filterValue = filter.children[0].value;
   let openFilterContainer = filter.children[1];
 
@@ -121,11 +122,11 @@ export function displayFiltersCategories(
 
 /**
  * Display filters btn in each filter
- * @param {Object} recipeArrCategory
+ * @param {Object} recipeArrCategory select tag category
  * @param {HTMLElement} container
  */
 function displayFilters(recipeArrCategory, container) {
-  // Display dom element for each filters
+  // Display tags element for each filters
   recipeArrCategory.forEach((element) => {
     const btnElement = createElement("button", {
       class: "btn_filter",
