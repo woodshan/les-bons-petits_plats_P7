@@ -1,7 +1,7 @@
 import { createElement } from "../utils/createElement.js";
 import { sort } from "../utils/sort.js";
-// import { recipeArr } from "./filtersTemplate.js";
 
+// Array of searched values
 export const activeFilterCategory = {
   ingredients: [],
   appliances: [],
@@ -10,22 +10,23 @@ export const activeFilterCategory = {
 };
 
 const activeFiltersSection = document.querySelector(".filters_active_section");
-// Array of filters active
+
+// Array of filters active (HTMLElement) 
 let activeFiltersArray = [];
 
 /**
- * Select/Unselect filter choices
+ * Select/Unselect filter choices & display actives filters
  * @param {HTMLElement} button
  */
 export function selectFilter(button) {
   const isActive = button.classList.contains("btn_active");
 
   if (!isActive) {
-    // Active filter
-    activateFilter(button);
+    // Enable filter
+    enableFilter(button);
   } else {
-    // Desactive filter
-    desactivateFilter(button, "");
+    // Disable filter
+    disableFilter(button, "");
   }
 
   // Display actives filters
@@ -36,7 +37,7 @@ export function selectFilter(button) {
  * Handle active filters
  * @param {HTMLElement} button
  */
-function activateFilter(button) {
+function enableFilter(button) {
   // Active selected btn
   button.classList.add("btn_active");
 
@@ -45,6 +46,7 @@ function activateFilter(button) {
 
   const filterValue = button.innerText.toLowerCase();
 
+  // Display X btn
   const xMark = createElement("em", {
     class: "fa-solid fa-circle-xmark",
     role: "button",
@@ -65,6 +67,7 @@ function activateFilter(button) {
   // Add active filter to array
   activeFiltersArray.push(activeFilter);
 
+  // Push selected value in activeFilterCategory 
   const filter =
     button.parentElement.parentElement.querySelector(".btn_filter").value;
   if (filter == "ingredients") {
@@ -77,9 +80,10 @@ function activateFilter(button) {
 
   // Remove filter active on click filter active btn
   removebtn.addEventListener("click", () => {
-    desactivateFilter(button, removebtn.parentElement);
+    disableFilter(button, removebtn.parentElement);
   });
 
+  // Handle searched recipes using selected values
   sort(activeFilterCategory);
 }
 
@@ -88,7 +92,7 @@ function activateFilter(button) {
  * @param {HTMLElement} button
  * @param {HTMLElement} filterToRemove
  */
-function desactivateFilter(button, filterToRemove) {
+function disableFilter(button, filterToRemove) {
   const filterValue = button.value.toLowerCase();
 
   // Remove clicked filter active from array
@@ -101,7 +105,7 @@ function desactivateFilter(button, filterToRemove) {
     filterToRemove.remove();
   }
 
-  // Desactivate active button in scrolling menu
+  // Disable active button in scrolling menu
   button.classList.remove("btn_active");
   button.querySelector("em").remove();
 
@@ -110,9 +114,9 @@ function desactivateFilter(button, filterToRemove) {
     activeFiltersSection.classList.add("hidden");
   }
 
+  // Remove selected value in activeFilterCategory 
   const filter =
     button.parentElement.parentElement.querySelector(".btn_filter").value;
-
   if (filter == "ingredients") {
     activeFilterCategory.ingredients = activeFilterCategory.ingredients.filter(
       (ingredient) => ingredient !== button.getAttribute("value")
@@ -127,11 +131,12 @@ function desactivateFilter(button, filterToRemove) {
     );
   }
 
+  // Handle searched recipes using remaining values
   sort(activeFilterCategory);
 }
 
 function displayActiveFilters() {
-  // Clear filters
+  // Clear active filters
   activeFiltersSection.innerHTML = "";
 
   // Display active filters
@@ -139,7 +144,7 @@ function displayActiveFilters() {
     activeFiltersSection.append(filt);
   });
 
-  // Remove filters active section if no filter is active
+  // Hide filters active section if no filter is active
   if (activeFiltersArray.length === 0) {
     activeFiltersSection.classList.add("hidden");
   }
