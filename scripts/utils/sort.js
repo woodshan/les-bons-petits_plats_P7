@@ -107,9 +107,15 @@ export function searchRecipe(activeFilterCategory) {
     }
 
     if (
-      recipes[i].name.toLowerCase().includes(activeFilterCategory.keyword) ||
+      recipes[i].name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .includes(activeFilterCategory.keyword) ||
       recipes[i].description
         .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
         .includes(activeFilterCategory.keyword)
     ) {
       recipeKeywordFound = true;
@@ -120,6 +126,8 @@ export function searchRecipe(activeFilterCategory) {
       if (
         recipes[i].ingredients[g].ingredient
           .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
           .includes(activeFilterCategory.keyword)
       ) {
         ingredientKeywordMatch = true;
