@@ -64,13 +64,21 @@ export function searchRecipe(activeFilterCategory) {
         (applianceFilt) => recipe.appliance.toLowerCase() === applianceFilt
       ) &&
       // Check if recipe includes user typed value
-      (recipe.name.toLowerCase().includes(activeFilterCategory.keyword) ||
+      (recipe.name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .includes(activeFilterCategory.keyword) ||
         recipe.description
           .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
           .includes(activeFilterCategory.keyword) ||
         recipe.ingredients.some((recipeIngredient) =>
           recipeIngredient.ingredient
             .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
             .includes(activeFilterCategory.keyword)
         ))
   );

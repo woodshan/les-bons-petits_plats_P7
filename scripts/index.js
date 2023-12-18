@@ -20,7 +20,7 @@ function main() {
       // Transform user typed value
       const value = e.target.value.toLowerCase();
       // Set keyword property w/user typed value
-      activeFilterCategory.keyword = value;
+      activeFilterCategory.keyword = value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     } else {
       activeFilterCategory.keyword = "";
     }
