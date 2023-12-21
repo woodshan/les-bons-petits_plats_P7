@@ -14,15 +14,15 @@ export function sort(activeFilterCategory) {
   // Array of searched recipes
   matchingRecipes = [];
 
+  // Array of searched recipes
+  matchingRecipes = searchRecipe(activeFilterCategory);
+
   // Extract recipeArr keys, check if is array and empty each property (empty recipeArr)
   Object.keys(recipeArr).forEach((key) =>
     Array.isArray(recipeArr[key])
       ? (recipeArr[key] = [])
       : (recipeArr[key] = "")
   );
-
-  // Array of searched recipes
-  matchingRecipes = searchRecipe(activeFilterCategory);
 
   const filters = document.querySelectorAll(".filter");
   filters.forEach((filter) => {
