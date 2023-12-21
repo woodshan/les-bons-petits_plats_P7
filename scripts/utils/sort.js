@@ -9,7 +9,6 @@ let matchingRecipes = [];
 /**
  * Filter, display recipes & show remaning tags
  * @param {Object} activeFilterCategory array of searched filters/values
- * @param {Object} recipeArr array of remaining tags
  */
 export function sort(activeFilterCategory) {
   // Array of searched recipes
