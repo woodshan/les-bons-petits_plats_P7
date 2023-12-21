@@ -1,5 +1,9 @@
 import { createElement } from "../utils/createElement.js";
 
+/**
+ * Display recipes
+ * @param {Object} recipes datas
+ */
 export function displayRecipes(recipes) {
   const totalRecipes = document.querySelector(".total_recipes");
 
